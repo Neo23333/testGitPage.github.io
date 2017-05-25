@@ -2,36 +2,32 @@
 layout: default
 ---
 
-<header class="post-header">
-	<div>
-		<span>Posted on </span><span class="post-meta">{{ page.date | date: "%B %-d, %Y" }}</span>
-	</div>
+<div class="articles">
+  <article class="post">
+    <header>
+      {% if page.img %}
+      <img src="{{site.baseurl}}/img/{{page.img}}" alt="{{page.img}}">
+      {% endif %}
+      <h1> {{ page.title }} </h1>
+    </header>
+    
+    {{ content }}
+    {% include _share-post.html %}
+  </article>
 
-	<h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
-</header>
+  <aside class="related">
+      <ul>
+        {% for post in site.related_posts limit: 5 %}
+        {% unless post.draft %}
+        <li>
+          <a href="{{site.baseurl}}{{post.url}}">
+            <h3><em>{{post.title}}</em></h3>
+            <small><b>{{post.author}}</b></small>
+          </a>
+        </li>
+        {% endunless %}
+        {% endfor %}
+      </ul>
 
-<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-	<div class="entry-content" itemprop="articleBody">
-		{{ content }}
-	</div>
-</article>
-
-<div id="post-nav">
-	<div class="next">
-		{% if page.next.url %}
-		<a href="{{ site.baseurl }}{{ page.next.url }}">
-			<span>Next entry</span>
-			{{ page.next.title }}
-		</a>
-		{% endif %}
-	</div>
-
-	<div class="previous">
-		{% if page.previous.url %}
-		<a href="{{ site.baseurl }}{{ page.previous.url }}">
-			<span>Previous entry</span>
-			{{ page.previous.title }}
-		</a>
-		{% endif %}
-	</div>
+    </aside>
 </div>
